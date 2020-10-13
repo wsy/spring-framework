@@ -176,6 +176,9 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 	 */
 	protected void handleError(ClientHttpResponse response, HttpStatus statusCode) throws IOException {
 		String statusText = response.getStatusText();
+		if (statusText == null || statusText.trim().isEmpty()) {
+			statusText = statusCode.getReasonPhrase();
+		}
 		HttpHeaders headers = response.getHeaders();
 		byte[] body = getResponseBody(response);
 		Charset charset = getCharset(response);
